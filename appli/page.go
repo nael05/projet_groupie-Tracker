@@ -58,7 +58,6 @@ func OuvertureApp() {
 }
 
 func AfficherLeMenu() {
-	// On nettoie les handlers clavier éventuels pour éviter les effets bizarres
 	if desk, ok := maFenetre.Canvas().(desktop.Canvas); ok {
 		desk.SetOnKeyDown(nil)
 	}
@@ -110,25 +109,21 @@ func AfficherLeMenu() {
 		entryRecherche,
 	)
 
-	// Filtres : création
 	entryCreationMin := widget.NewEntry()
 	entryCreationMin.SetPlaceHolder("Année création min")
 	entryCreationMax := widget.NewEntry()
 	entryCreationMax.SetPlaceHolder("Année création max")
 
-	// Filtres : premier album (année)
 	entryAlbumMin := widget.NewEntry()
 	entryAlbumMin.SetPlaceHolder("Premier album min (YYYY)")
 	entryAlbumMax := widget.NewEntry()
 	entryAlbumMax.SetPlaceHolder("Premier album max (YYYY)")
 
-	// Filtres : nombre de membres (checkbox)
 	chk1 := widget.NewCheck("1 membre", nil)
 	chk2 := widget.NewCheck("2 membres", nil)
 	chk3 := widget.NewCheck("3 membres", nil)
 	chk4 := widget.NewCheck("4+ membres", nil)
 
-	// Filtres : lieux de concerts (champ texte, séparés par virgule)
 	entryLocations := widget.NewEntry()
 	entryLocations.SetPlaceHolder("Lieux concerts (séparés par , ex: Paris, USA)")
 
@@ -147,7 +142,6 @@ func AfficherLeMenu() {
 			FirstAlbumMax: parseVal(entryAlbumMax.Text),
 		}
 
-		// reset des listes pour éviter l'accumulation
 		filtresActuels.MembersCounts = nil
 		for i, chk := range []*widget.Check{chk1, chk2, chk3, chk4} {
 			if chk.Checked {
@@ -159,7 +153,6 @@ func AfficherLeMenu() {
 			}
 		}
 
-		// Lieux (séparés par virgule)
 		filtresActuels.Locations = nil
 		if strings.TrimSpace(entryLocations.Text) != "" {
 			for _, loc := range strings.Split(entryLocations.Text, ",") {
@@ -302,7 +295,6 @@ func AfficherLesDetails(artiste List_artist) {
 
 	maFenetre.SetContent(pageDetails)
 
-	// Raccourci Esc pour revenir au menu
 	if desk, ok := maFenetre.Canvas().(desktop.Canvas); ok {
 		desk.SetOnKeyDown(func(ev *fyne.KeyEvent) {
 			if ev.Name == fyne.KeyEscape {
@@ -449,7 +441,6 @@ func (i *ImageCliquable) CreateRenderer() fyne.WidgetRenderer {
 	return widget.NewSimpleRenderer(i.Image)
 }
 
-// extrait l'année (YYYY) depuis la date du premier album
 func yearFromDateString(d string) int {
 	if len(d) < 4 {
 		return 0
@@ -464,13 +455,11 @@ func yearFromDateString(d string) int {
 func FiltrerArtistes(artistes []List_artist, opts FilterOptions) []List_artist {
 	var result []List_artist
 	for _, a := range artistes {
-		// Filtre création
 		if (opts.CreationMin != 0 && a.CreationDate < opts.CreationMin) ||
 			(opts.CreationMax != 0 && a.CreationDate > opts.CreationMax) {
 			continue
 		}
 
-		// Filtre 1er album
 		if opts.FirstAlbumMin != 0 || opts.FirstAlbumMax != 0 {
 			year := yearFromDateString(a.FirstAlbum)
 			if year == 0 {
@@ -482,7 +471,6 @@ func FiltrerArtistes(artistes []List_artist, opts FilterOptions) []List_artist {
 			}
 		}
 
-		// Filtre nb membres
 		if len(opts.MembersCounts) > 0 {
 			found := false
 			for _, v := range opts.MembersCounts {
@@ -496,7 +484,6 @@ func FiltrerArtistes(artistes []List_artist, opts FilterOptions) []List_artist {
 			}
 		}
 
-		// Filtre lieux de concerts
 		if len(opts.Locations) > 0 {
 			rel, err := GetRelations(a.RelationsUrl)
 			if err != nil {
@@ -553,7 +540,6 @@ func RechercherArtistes(artistes []List_artist, recherche string) []List_artist 
 				continue
 			}
 
-			// Recherche dans les locations de concerts
 			rel, err := GetRelations(a.RelationsUrl)
 			if err == nil {
 				for loc := range rel {

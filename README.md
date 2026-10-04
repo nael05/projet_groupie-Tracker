@@ -1,64 +1,61 @@
 # Groupie Tracker
 
-Groupie Tracker is a desktop application built with Go (Golang) and the Fyne GUI toolkit. It interfaces with an external REST API to display information about music artists and bands, including their history, members, and concert locations.
+**Projet scolaire collaboratif**
+Ce projet a été réalisé en groupe dans le cadre de nos études en informatique à Ynov Campus.
 
-The application focuses on data manipulation, user interface design, and handling asynchronous API requests, including geocoding and map visualization.
+## Présentation du projet
+Groupie Tracker est une application de bureau que nous avons développée en Go (Golang) à l'aide du toolkit graphique Fyne. Elle interagit avec une API REST externe pour afficher des informations sur divers artistes et groupes de musique (historique, membres, dates et lieux de concerts).
 
-## Project Overview
+L'objectif de ce projet était de nous familiariser avec la manipulation de données, la conception d'interface utilisateur en Go, et la gestion des requêtes API asynchrones (y compris le géocodage et la visualisation de cartes).
 
-This application retrieves data from a specific API containing information about artists, their concert locations, and dates. It presents this data in a user-friendly graphical interface that allows users to search, filter, and view detailed information. Additionally, it integrates a mapping feature to visualize concert locations using OpenStreetMap.
+## Fonctionnalités
+- **Annuaire d'artistes** : Affichage des artistes sous forme de grille avec leurs noms et images.
+- **Recherche avancée** : Nous avons implémenté une barre de recherche permettant de filtrer par nom d'artiste, nom de membre, date de création, année du premier album ou lieu de concert.
+- **Système de filtres** : Il est possible d'affiner la liste selon l'année de création, le nombre de membres, etc.
+- **Vue détaillée** : Affiche les informations complètes d'un artiste sélectionné (membres, albums, concerts).
+- **Géolocalisation & Carte** :
+  - L'application convertit les noms de lieux en coordonnées géographiques via l'API Nominatim.
+  - Nous avons intégré une carte interactive (OpenStreetMap) pour visualiser les lieux des concerts.
 
-## Features
+## Stack Technique
+- **Langage** : Go (Golang)
+- **Framework GUI** : Fyne v2
+- **Format de données** : JSON
+- **APIs externes** :
+  - Données des artistes (API fournie dans le sujet)
+  - Géocodage : Nominatim (OpenStreetMap)
+  - Tuiles de carte : OpenStreetMap
 
-- **Artist Directory**: Displays a grid of artists with their names and images.
-- **Advanced Search**: Allows users to search by artist name, member name, creation date, first album year, or concert location.
-- **Filtering System**: Users can filter the artist list based on:
-  - Creation year (range)
-  - First album year (range)
-  - Number of members
-  - Concert locations
-- **Detailed View**: Shows comprehensive information for a selected artist, including:
-  - Band members
-  - Creation date and first album year
-  - List of concert dates and locations
-- **Geolocation & Mapping**:
-  - Converts concert location names into geographic coordinates using the Nominatim API.
-  - Displays an interactive map with markers using OpenStreetMap tiles.
+## Arborescence du Projet
+```
+projet_groupie-Tracker/
+├── main.go            # Point d'entrée de l'application
+├── appli/             # Logique centrale et composants UI
+│   ├── api.go         # Gestion des requêtes HTTP et structures de données
+│   └── page.go        # Layout Fyne, événements et rendu de la carte
+├── go.mod / go.sum    # Dépendances du module Go
+└── README.md          # Documentation
+```
 
-## Technical Stack
+## Prérequis
+Pour lancer ce projet, vous aurez besoin de :
+1. **Go** (version 1.25 ou compatible).
+2. **Un compilateur C** : Fyne nécessite un compilateur C (GCC) pour les bindings CGO liés au rendu graphique.
+   - *Windows* : TDM-GCC ou MinGW-w64.
+   - *macOS* : Xcode Command Line Tools.
+   - *Linux* : GCC.
 
-- **Language**: Go (Golang) version 1.25+
-- **GUI Framework**: Fyne v2 (v2.7.2)
-- **Data Format**: JSON
-- **External APIs**:
-  - Artist Data: groupietrackers.herokuapp.com
-  - Geocoding: nominatim.openstreetmap.org
-  - Map Tiles: tile.openstreetmap.org
-
-## Project Structure
-
-- **main.go**: The entry point of the application. It initializes the application loop.
-- **appli/**: Contains the core logic and UI components.
-  - **api.go**: Handles all HTTP requests, JSON parsing, and data structures (Artist, Relations, Geocoding).
-  - **page.go**: Manages the Fyne UI layout, event handling, filtering logic, and map rendering.
-- **go.mod / go.sum**: Manages Go module dependencies.
-
-## Prerequisites
-
-To run this project, you need the following installed on your machine:
-
-1. **Go**: Ensure you have Go installed (version 1.25 or compatible).
-2. **C Compiler**: Fyne requires a C compiler (like GCC) for CGO bindings, especially for graphics rendering.
-   - **Windows**: TDM-GCC or MinGW-w64.
-   - **macOS**: Xcode Command Line Tools.
-   - **Linux**: GCC (usually installed by default or via `build-essential`).
-
-## Installation and Execution
-
-1. Clone the repository or download the source code.
-
-2. Open a terminal in the project root directory.
-
-3. Install the dependencies:
+## Installation et Lancement
+1. Clonez ce dépôt.
+2. Ouvrez un terminal dans le dossier racine.
+3. Téléchargez les dépendances :
    ```bash
    go mod tidy
+   ```
+4. Lancez l'application :
+   ```bash
+   go run main.go
+   ```
+
+### 👥 Contributeurs
+- Groupe d'étudiants Ynov Campus (Projet Go).
